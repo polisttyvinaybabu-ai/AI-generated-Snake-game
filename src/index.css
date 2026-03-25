@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "VT323", monospace;
+  --font-mono: "Press Start 2P", monospace;
+}
+
+body {
+  @apply bg-black text-white overflow-hidden font-sans;
+  margin: 0;
+  padding: 0;
+}
+
+/* Jarring Colors */
+:root {
+  --cyan: #00FFFF;
+  --magenta: #FF00FF;
+}
+
+/* Static Noise Background */
+.static-bg {
+  position: relative;
+}
+.static-bg::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%; right: -50%; bottom: -50%;
+  width: 200%; height: 200%;
+  background: transparent url('https://assets.iceable.com/img/noise-transparent.png') repeat 0 0;
+  background-repeat: repeat;
+  animation: bg-animation .2s infinite;
+  opacity: 0.4;
+  visibility: visible;
+  pointer-events: none;
+  z-index: 50;
+}
+
+@keyframes bg-animation {
+    0% { transform: translate(0,0) }
+    10% { transform: translate(-5%,-5%) }
+    20% { transform: translate(-10%,5%) }
+    30% { transform: translate(5%,-10%) }
+    40% { transform: translate(-5%,15%) }
+    50% { transform: translate(-10%,5%) }
+    60% { transform: translate(15%,0) }
+    70% { transform: translate(0,15%) }
+    80% { transform: translate(3%,35%) }
+    90% { transform: translate(-10%,10%) }
+}
+
+/* Scanlines */
+.scanlines {
+  position: relative;
+}
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 40;
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Glitch Text */
+.glitch-text {
+  position: relative;
+  color: white;
+  text-shadow: 0.05em 0 0 var(--cyan), -0.025em -0.05em 0 var(--magenta),
+    0.025em 0.05em 0 #00ff00;
+  animation: glitch 500ms infinite;
+}
+
+.glitch-text span {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.glitch-text span:first-child {
+  animation: glitch 650ms infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  transform: translate(-0.025em, -0.0125em);
+  opacity: 0.8;
+}
+
+.glitch-text span:last-child {
+  animation: glitch 375ms infinite;
+  clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
+  transform: translate(0.0125em, 0.025em);
+  opacity: 0.8;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 0.05em 0 0 var(--cyan), -0.05em -0.025em 0 var(--magenta), -0.025em 0.05em 0 #00ff00; }
+  14% { text-shadow: 0.05em 0 0 var(--cyan), -0.05em -0.025em 0 var(--magenta), -0.025em 0.05em 0 #00ff00; }
+  15% { text-shadow: -0.05em -0.025em 0 var(--cyan), 0.025em 0.025em 0 var(--magenta), -0.05em -0.05em 0 #00ff00; }
+  49% { text-shadow: -0.05em -0.025em 0 var(--cyan), 0.025em 0.025em 0 var(--magenta), -0.05em -0.05em 0 #00ff00; }
+  50% { text-shadow: 0.025em 0.05em 0 var(--cyan), 0.05em 0 0 var(--magenta), 0 -0.05em 0 #00ff00; }
+  99% { text-shadow: 0.025em 0.05em 0 var(--cyan), 0.05em 0 0 var(--magenta), 0 -0.05em 0 #00ff00; }
+  100% { text-shadow: -0.025em 0 0 var(--cyan), -0.025em -0.025em 0 var(--magenta), -0.025em -0.05em 0 #00ff00; }
+}
+
+/* Screen Tearing */
+.tear-box {
+  animation: tear 4s infinite linear;
+}
+
+@keyframes tear {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(0); }
+  21% { transform: translateX(10px); clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); }
+  22% { transform: translateX(-10px); clip-path: polygon(0 40%, 100% 40%, 100% 60%, 0 60%); }
+  23% { transform: translateX(0); clip-path: none; }
+  100% { transform: translateX(0); }
+}
